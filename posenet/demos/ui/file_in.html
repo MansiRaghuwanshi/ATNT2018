@@ -1,0 +1,41 @@
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <audio controls>
+        <source src="../Clave_Loop.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+</head>
+<body>
+    <input id="inputfile" type="file" />
+</body>
+<script>
+    var openFile = function (event) {
+        var input = event.target;
+        var audioContext = new AudioContext();
+
+        var reader = new FileReader();
+        reader.onload = function () {
+            var arrayBuffer = reader.result;
+            console.log("arrayBuffer:");
+            console.log(arrayBuffer);
+            audioContext.decodeAudioData(arrayBuffer, decodedDone);
+
+        };
+        reader.readAsArrayBuffer(input.files[0]);
+    };
+    function decodedDone(decoded) {
+
+        var typedArray = new Float32Array(decoded.length);
+
+        typedArray = decoded.getChannelData(0);
+        console.log("typedArray:");
+        console.log(typedArray);
+
+    }
+    $('#inputFile').on("change", function () { openFile() });
+</script>
+
+</html>
