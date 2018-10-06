@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\startbootstrap-round-about-gh-pages"
+    "\\posenet",
+    "\\posenet\\demos",
+    "\\posenet\\startbootstrap-round-about-gh-pages"
   ],
+  "SelectedNode": "\\posenet\\startbootstrap-round-about-gh-pages\\select_mood.html",
   "PreviewInSolutionExplorer": false
 }
