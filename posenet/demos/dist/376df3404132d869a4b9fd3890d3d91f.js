@@ -38857,11 +38857,27 @@ function setupFPS() {
   document.body.appendChild(stats.dom);
 }
 
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+var context = new AudioContext();
+function playSound(arr) {
+  var buf = new Float32Array(arr.length);
+  for (var i = 0; i < arr.length; i++) buf[i] = arr[i];
+  var buffer = context.createBuffer(1, buf.length, context.sampleRate);
+  buffer.copyToChannel(buf, 0);
+  var source = context.createBufferSource();
+  source.buffer = buffer;
+  source.connect(context.destination);
+  source.start(0);
+}
+function sineWaveAt(sampleNumber, tone) {
+  var sampleFreq = context.sampleRate / tone;
+  return Math.sin(sampleNumber / (sampleFreq / (Math.PI * 2)));
+}
+
 // feature detection Module
 function featureDetection(keypoints) {
-  console.log(keypoints[keyMap['nose']].position);
+
   if (globalKeyPoints.length) {
-    featureDetection(keypoints);
     console.log('test1');
   }
 
@@ -38871,24 +38887,29 @@ function featureDetection(keypoints) {
   globalKeyPoints = keypoints;
   console.log(globalKeyPoints);
 
-  // var noseY;
-  // if (keypoints) {
-  //     //console.log(keypoints);
-  //     setTimeout(function (keypoints) {
-  //         for (var i = 0; i < keypoints.length; i++) {
-  //             if (keypoints[i].part == 'nose') {
-  //                 noseY = keypoints[i].position.y;
-  //                 console.log(noseY);
-  //             }
-  //         }
-  //         var arr = [], volume = 0.2, seconds = 0.5, tone = noseY;
-  //         if (tone) {
-  //             for (var i = 0; i < context.sampleRate * seconds; i++) {
-  //                 arr[i] = sineWaveAt(i, tone) * volume
-  //             }
-  //             playSound(arr);
-  //         }
-  //     }(keypoints), 0);
+  var noseY;
+  if (keypoints) {
+    noseY = keypoints[keyMap['nose']].position.y;
+  }
+  //console.log(keypoints);
+  setTimeout(function (keypoints) {
+    for (var i = 0; i < keypoints.length; i++) {
+      if (keypoints[i].part == 'nose') {
+        noseY = keypoints[i].position.y;
+        console.log(noseY);
+      }
+    }
+    var arr = [],
+        volume = 0.2,
+        seconds = 0.5,
+        tone = noseY;
+    if (tone) {
+      for (var i = 0; i < context.sampleRate * seconds; i++) {
+        arr[i] = sineWaveAt(i, tone) * volume;
+      }
+      playSound(arr);
+    }
+  }(keypoints), 0);
 }
 
 /**
@@ -38959,6 +38980,8 @@ function detectPoseInRealTime(video, net) {
     poses.forEach(({ score, keypoints }) => {
       if (score >= minPoseConfidence) {
         if (guiState.output.showPoints) {
+          featureDetection(keypoints);
+
           (0, _demo_util.drawKeypoints)(keypoints, minPartConfidence, ctx);
         }
         if (guiState.output.showSkeleton) {
