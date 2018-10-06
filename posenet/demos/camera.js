@@ -19,6 +19,8 @@ import dat from 'dat.gui';
 import Stats from 'stats.js';
 import {drawKeypoints, drawSkeleton, drawBoundingBox} from './demo_util';
 
+const numOfSong=3;
+const songList=['Clave_Loop.wav','Guitar_Loop.wav','Palillos_Loop.wav']
 const videoWidth = 600;
 const videoHeight = 500;
 const stats = new Stats();
@@ -214,22 +216,22 @@ function setupFPS() {
   document.body.appendChild(stats.dom);
 }
 
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
-var context = new AudioContext();
-function playSound(arr) {
-    var buf = new Float32Array(arr.length)
-    for (var i = 0; i < arr.length; i++) buf[i] = arr[i]
-    var buffer = context.createBuffer(1, buf.length, context.sampleRate)
-    buffer.copyToChannel(buf, 0)
-    var source = context.createBufferSource();
-    source.buffer = buffer;
-    source.connect(context.destination);
-    source.start(0);
-}
-function sineWaveAt(sampleNumber, tone) {
-    var sampleFreq = context.sampleRate / tone
-    return Math.sin(sampleNumber / (sampleFreq / (Math.PI * 2)))
-}
+// window.AudioContext = window.AudioContext || window.webkitAudioContext;
+// var context = new AudioContext();
+// function playSound(arr) {
+//     var buf = new Float32Array(arr.length)
+//     for (var i = 0; i < arr.length; i++) buf[i] = arr[i]
+//     var buffer = context.createBuffer(1, buf.length, context.sampleRate)
+//     buffer.copyToChannel(buf, 0)
+//     var source = context.createBufferSource();
+//     source.buffer = buffer;
+//     source.connect(context.destination);
+//     source.start(0);
+// }
+// function sineWaveAt(sampleNumber, tone) {
+//     var sampleFreq = context.sampleRate / tone
+//     return Math.sin(sampleNumber / (sampleFreq / (Math.PI * 2)))
+// }
 
 // feature detection Module
 function featureDetection(keypoints) {
@@ -238,34 +240,69 @@ function featureDetection(keypoints) {
         console.log('test1');
     }
 
-    function pointDeviation(point) {
-
+    function pointScaleX(point) {
+        var limit = 1/numOfSong;
+        return (point.x/videoWidth)%limit;
+    }
+    function pointScaleY(point) {
+        return (point.y/videoHeight);
+    }
+    function getSongSection(point) {
+        var limit = videoWidth/numOfSong;
+        var indexpoint = Math.floor(point.x/limit);
+        if(indexpoint==0){
+            indexpoint = 1;
+        }
+        return indexpoint;
     }
 
-    pointDeviation(keypoints[0]);
-    globalKeyPoints = keypoints;
-    console.log(globalKeyPoints);
+    if(keypoints) {
 
-    var noseY;
-    if (keypoints) {
-        noseY = keypoints[keyMap['nose']].position.y;
-    }
+
         //console.log(keypoints);
-        setTimeout(function (keypoints) {
-            for (var i = 0; i < keypoints.length; i++) {
-                if (keypoints[i].part == 'nose') {
-                    noseY = keypoints[i].position.y;
-                    console.log(noseY);
-                }
-            }
-            var arr = [], volume = 0.2, seconds = 0.5, tone = noseY;
-            if (tone) {
-                for (var i = 0; i < context.sampleRate * seconds; i++) {
-                    arr[i] = sineWaveAt(i, tone) * volume
-                }
-                playSound(arr);
-            }
-        }(keypoints), 0);
+        setTimeout(function(keypoints) {
+
+            // var noseY;
+            // var leftWrist;
+            // noseY = keypoints[keyMap['nose']].position.y;
+            var leftWristPt = keypoints[keyMap['leftWrist']].position;
+            var index = getSongSection(leftWristPt);
+            console.log('index');
+            console.log(index);
+            // console.log(songList[index-1]);
+            // for (var i = 0; i < keypoints.length; i++) {
+            //     if (keypoints[i].part == 'nose') {
+            //         noseY = keypoints[i].position.y;
+            //         console.log(noseY);
+            //     }
+            // }
+            // var arr = [], volume = 0.2, seconds = 0.5, tone = noseY;
+            // if (tone) {
+            //     for (var i = 0; i < context.sampleRate * seconds; i++) {
+            //         arr[i] = sineWaveAt(i, tone) * volume
+            //     }
+            //     playSound(arr);
+            // }
+            // console.log(globalKeyPoints[keyMap['nose']].position.y);
+            // console.log(noseY);
+            // console.log(noseY < 5+globalKeyPoints[keyMap['nose']].position.y);
+            console.log("myAudio"+index);
+            var x = document.getElementById("myAudio"+index);
+            x.playbackRate=pointScaleY(leftWristPt);
+            x.volume=pointScaleX(leftWristPt);
+            // console.log(noseY/videoHeight);
+            // if (noseY < (1+globalKeyPoints[keyMap['nose']].position.y)) {
+            //     x.volume=noseY/500;
+            //
+            // }
+            // else {
+            //     x.pause();
+            // }
+
+        }(keypoints), 1);
+    }
+    globalKeyPoints = keypoints;
+
 }
 
 
@@ -388,8 +425,12 @@ export async function bindPage() {
   }
 
   setupGui([], net);
-  setupFPS();
+  // setupFPS();
   detectPoseInRealTime(video, net);
+  setTimeout(function(){
+      // window.document.getElementsByClassName("dg.ac").style.display='none';
+  },100);
+
 }
 
 navigator.getUserMedia = navigator.getUserMedia ||

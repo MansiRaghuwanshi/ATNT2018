@@ -1,13 +1,107 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>PoseNet Demos</title>
-  </head>
-  <body>
-    <h1>PoseNet Demos</h1>
-    <ul>
-      <li><a href="/dist/adcf0041cd4affcf5108199c8faf48db.html">Camera feed demo</a></li>
-      <li><a href="/dist/c061845c635c3ee989522c20b1e9330d.html">Image demo</a></li>
-    </ul>
-  </body>
+
+<head>
+    <title>PoseNet - Camera Feed Demo</title>
+    <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            color: black;
+        }
+
+        .footer-text {
+            max-width: 600px;
+            text-align: center;
+            margin: auto;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .footer-text, .dg {
+                display: none;
+            }
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id="info" style="display:none">
+    </div>
+    <div id="loading">
+        Loading the model...
+    </div>
+
+    <div id="main" style="display:none">
+        <video id="video" playsinline="" style=" -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        display: none;
+        "></video>
+        <canvas id="output">
+    </canvas></div>
+    <div class="footer">
+        <div class="footer-text">
+            <p>
+                PoseNet runs with either a <strong>single-pose</strong> or <strong>multi-pose</strong> detection algorithm. The single person pose detector is faster and more accurate but requires only one subject present in the image.
+                <br>
+                <br> The <strong>output stride</strong> and <strong>image scale factor</strong> have the largest effects on accuracy/speed. A <i>higher</i> output stride results in lower accuracy but higher speed. A <i>higher</i> image scale factor results in higher accuracy but lower speed.
+            </p>
+        </div>
+    </div>
+    <audio id="myAudio1">
+        <source src="/dist/4f7d3ecbd580f9ae58c213865a6b1782.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="myAudio2">
+        <source src="/dist/bd9cab081c03b1c3216e696a6d845639.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="myAudio3">
+        <source src="/dist/e3fea9d62d5897e7d8d8864f98933aaf.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <p>Click the buttons to play or pause the audio.</p>
+
+    <!--<button onclick="playAudio()" type="button">Play Audio</button>-->
+    <!--<button onclick="pauseAudio()" type="button">Pause Audio</button>-->
+    <script src="/dist/376df3404132d869a4b9fd3890d3d91f.js"></script>
+    <script>
+        var x1 = document.getElementById("myAudio1");
+        x1.volume=0;
+        x1.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        x1.play();
+
+        var x2 = document.getElementById("myAudio2");
+        x2.volume=0;
+        x2.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        x2.play();
+
+        var x3 = document.getElementById("myAudio3");
+        x3.volume=0;
+        x3.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        x3.play();
+
+        // function playAudio() {
+        //     x.play();
+        // }
+        //
+        // function pauseAudio() {
+        //     x.pause();
+        // }
+    </script>
+</body>
+
 </html>

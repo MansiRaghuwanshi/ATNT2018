@@ -52,7 +52,56 @@
             </p>
         </div>
     </div>
+    <audio id="myAudio1">
+        <source src="Clave_Loop.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="myAudio2">
+        <source src="Guitar_Loop.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="myAudio3">
+        <source src="Palillos_Loop.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <p>Click the buttons to play or pause the audio.</p>
+
+    <!--<button onclick="playAudio()" type="button">Play Audio</button>-->
+    <!--<button onclick="pauseAudio()" type="button">Pause Audio</button>-->
     <script src="camera.js"></script>
+    <script>
+        var x1 = document.getElementById("myAudio1");
+        x1.volume=0;
+        x1.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        x1.play();
+
+        var x2 = document.getElementById("myAudio2");
+        x2.volume=0;
+        x2.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        x2.play();
+
+        var x3 = document.getElementById("myAudio3");
+        x3.volume=0;
+        x3.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        x3.play();
+
+        // function playAudio() {
+        //     x.play();
+        // }
+        //
+        // function pauseAudio() {
+        //     x.pause();
+        // }
+    </script>
 </body>
 
 </html>
