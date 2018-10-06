@@ -20,22 +20,35 @@
             margin-left: auto;
             margin-right: auto;
         }
+        .parent {
+            position: relative;
+        }
+
+        #camera {
+            position: absolute;
+            background-color: rgba(0,0,0,0);
+            top: 210px;
+            left: 9px;
+            width: 423px;
+            height: 324px;
+        }
     </style>
     <script>
         //1440x790 on full screen
     </script>
 </head>
 
-  <body class="m-0 p-0">
-      <div onclick="window.location = 'select_genre_mobile.html';">
-          <div class="row text-center">
-              <img height="790" class="center-block" src="images/Intro_h790.png" />
-          </div>
-      </div>
-
-      <!-- Bootstrap core JavaScript -->
-      <script src="vendor/jquery/jquery.min.js"></script>
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  </body>
+<body class="m-0 p-0">
+    <div class="row text-center">
+        <div class="parent center-block">
+            <div>
+                <img height="790" class="center-block" src="images/SCRN_3_revised_h790.png" />
+            </div>
+        </div>
+    </div>
+        <!-- Bootstrap core JavaScript -->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
 
 </html>
