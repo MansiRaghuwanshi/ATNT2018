@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>OnQ</title>
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/round-about.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <style>
+        .center-block {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <script>
+        //1440x790 on full screen
+        $.ready(function () {
+
+
+
+        });
+
+        function touchEffect (divId) {
+            $(divId).css("background-color", "rgba(255,0,0,.5)");
+            if (divId == "#upbeat_square") {
+                setTimeout(function () {
+                    window.location = ('recording_mobile.html');
+                }, 1000)
+            }
+        }
+    </script>
+    <style>
+        .parent {
+            position:relative;
+        }
+
+        #latin_square {
+            position:absolute;
+        background-color: rgba(0,0,0,0);
+        top:210px;
+        left:24px;
+        width:128px;
+        height:128px;
+        }
+
+        #upbeat_square {
+            position: absolute;
+            background-color: rgba(0,0,0,0);
+            top: 589px;
+            left: 24px;
+            width: 128px;
+            height: 128px;
+        }
+    </style>
+</head>
+
+  <body class="m-0 p-0">
+      <div class="row text-center">
+          <div class="parent center-block">
+              <div>
+                  <img height="790" class="center-block" src="images/SCRN_2_revised_750w.png" />
+              </div>
+              <div id="latin_square" onclick="touchEffect('#latin_square');"></div>
+              <div id="upbeat_square" onclick="touchEffect('#upbeat_square');"></div>
+
+
+          </div>
+      </div>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </body>
+
+</html>
