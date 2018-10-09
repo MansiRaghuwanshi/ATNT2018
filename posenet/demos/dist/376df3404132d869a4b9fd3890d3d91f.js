@@ -38670,7 +38670,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * =============================================================================
  */
 const numOfSong = 3;
-const songList = ['Clave_Loop.wav', 'Guitar_Loop.wav', 'Palillos_Loop.wav'];
+const songList = ['Percussion_Loop.wav', 'Guitar_Loop.wav', 'Vox_Loop.wav'];
 const videoWidth = 600;
 const videoHeight = 500;
 const stats = new _stats2.default();
@@ -38908,9 +38908,10 @@ function featureDetection(keypoints) {
       // var leftWrist;
       // noseY = keypoints[keyMap['nose']].position.y;
       var leftWristPt = keypoints[keyMap['leftWrist']].position;
+      var rightWristPt = keypoints[keyMap['rightWrist']].position;
       var index = getSongSection(leftWristPt);
       console.log('index');
-      console.log(index);
+      console.log(pointScaleY(rightWristPt));
       // console.log(songList[index-1]);
       // for (var i = 0; i < keypoints.length; i++) {
       //     if (keypoints[i].part == 'nose') {
@@ -38930,7 +38931,7 @@ function featureDetection(keypoints) {
       // console.log(noseY < 5+globalKeyPoints[keyMap['nose']].position.y);
       console.log("myAudio" + index);
       var x = document.getElementById("myAudio" + index);
-      x.playbackRate = pointScaleY(leftWristPt);
+      x.defaultPlaybackRate = pointScaleY(rightWristPt);
       x.volume = pointScaleX(leftWristPt);
       // console.log(noseY/videoHeight);
       // if (noseY < (1+globalKeyPoints[keyMap['nose']].position.y)) {
