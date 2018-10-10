@@ -2,3 +2,8 @@ node_modules/*
 .cache/*
 dist/*
 .idea/*
+.DS_Store
+.vs
+.cache
+node_modules/
+/node_modules/
